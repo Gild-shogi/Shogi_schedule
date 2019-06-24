@@ -15,8 +15,9 @@ table = soup.findAll(name = 'div' , attrs={'class' : 'tabContentsA02' , 'id' : "
 rows = table.findAll("tr")
 
 #player
-player = input("棋士を入力")
+player = input("棋士を入力 : ")
 check = 0
+battle_day = []
 with open("shogi_schedule.csv" , "w" , encoding="utf-8") as f:
     writer = csv.writer(f)
     for row in rows :
@@ -25,11 +26,19 @@ with open("shogi_schedule.csv" , "w" , encoding="utf-8") as f:
             csvRow.append(cell.get_text())
 
         writer.writerow(csvRow)
-        print(csvRow)
+        #print(csvRow)
         for i in range(len(csvRow)):
             if csvRow[i] == player:
-                check = 1
-                break
-        print(type(len(csvRow)))
-if check == 1:
-    print("今週は",player,"の対局があります")
+                check = check+1
+                battle_day.append(day)
+
+
+
+            if len(csvRow)==1:
+                 day = csvRow[i]
+                 #print(day)
+        #print(type(len(csvRow)))
+if check >= 1:
+    for i in range(check):
+        print(battle_day[i])
+    print("に",player,"の対局があります")
